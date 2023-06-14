@@ -12,6 +12,7 @@
 #include <QtSql/QtSql>
 #include "auth_window.h"
 #include "reg_window.h"
+#include <QMouseEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -81,8 +82,15 @@ private:
     QString m_userpass; /**< The current user password. */
     QString db_input; /**< The input string for database queries. */
     QSqlDatabase mw_db; /**< The database connection object. */
+
+    QPoint m_dragPosition;
+
     int user_counter; /**< The counter for user records. */
     bool m_loginSuccesfull; /**< Flag indicating successful login. */
+
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 
 private slots:
     /**

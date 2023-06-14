@@ -90,6 +90,7 @@ private slots:
      */
     void on_regbutton_clicked();
 
+
 private:
     Ui::Auth_Window *ui; /**< The user interface object. */
     QString m_username; /**< The entered username. */

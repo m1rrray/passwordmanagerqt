@@ -4,6 +4,7 @@
 #include "reg_window.h"
 #include <QtDebug>
 #include "newpasswordform.h"
+#include <QMouseEvent>
 
 // Конструктор класса MainWindow
 MainWindow::MainWindow(QWidget *parent)
@@ -28,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     // Установка флагов окна для фиксированного размера
-    setWindowFlags(windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
+    //    setWindowFlags(windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
     setFixedSize(800, 600);
 
     // Создание таблицы "userlist" в базе данных, если она не существует
@@ -347,5 +348,38 @@ void MainWindow::on_delpass_clicked()
                 qDebug() << "Unable to delete password from table:" << query.lastError();
             }
         }
+    }
+}
+
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    // Перехватываем событие нажатия кнопки мыши
+    if (event->button() == Qt::LeftButton)
+    {
+        // Запоминаем начальные координаты нажатия
+        m_dragPosition = event->globalPos() - frameGeometry().topLeft();
+        event->accept();
+    }
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    // Перехватываем событие перемещения мыши
+    if (event->buttons() & Qt::LeftButton)
+    {
+        // Вычисляем новое положение окна на основе текущих координат мыши
+        move(event->globalPos() - m_dragPosition);
+        event->accept();
+    }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+    // Перехватываем событие отпускания кнопки мыши
+    if (event->button() == Qt::LeftButton)
+    {
+        // Завершаем перемещение окна
+        event->accept();
     }
 }
